@@ -10,15 +10,12 @@ namespace c_project
 
 
       // Variables
-      string[] el = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-      int[][] possibilities = { new int[] { 0, 1, 2 }, new int[] { 3, 4, 5 }, new int[] { 6, 7, 8 }, new int[] { 0, 3, 6 }, new int[] { 1, 4, 7 }, new int[] { 2, 5, 8 }, new int[] { 0, 4, 8 }, new int[] { 2, 4, 6 } };
-
+      string player1, player2;
       string currentPlayer;
       int moves = 0;
-      string outcome = "draw";
       bool winner = false;
-      string player1, player2;
-
+      string outcome = "draw";
+      bool playAgain = true;
 
       mainLogo();
 
@@ -32,97 +29,111 @@ namespace c_project
       currentPlayer = player1;
       Console.Clear();
 
-      while (!winner)
+      while (playAgain)
       {
-        string currentIcon = currentPlayer == player1 ? "X" : "O";
+        //Game Variables
+        string[] el = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        int[][] possibilities = { new int[] { 0, 1, 2 }, new int[] { 3, 4, 5 }, new int[] { 6, 7, 8 }, new int[] { 0, 3, 6 }, new int[] { 1, 4, 7 }, new int[] { 2, 5, 8 }, new int[] { 0, 4, 8 }, new int[] { 2, 4, 6 } };
 
-        if (currentPlayer == player1)
+        while (!winner)
         {
+          string currentIcon = currentPlayer == player1 ? "X" : "O";
 
-          // Tic Tac Toe Board  
-          board(currentPlayer, currentIcon, el);
-
-          Console.WriteLine();
-          Console.WriteLine("Where to? ");
-          string temp = Console.ReadLine();
-          el[Convert.ToInt32(temp) - 1] = currentIcon;
-
-          moves++;
-          for (int j = 0; j < possibilities.Length; j++)
+          if (currentPlayer == player1)
           {
-            int[] possibilityEachArray = possibilities[j];
-            if (el[possibilityEachArray[0]] == currentIcon && el[possibilityEachArray[1]] == currentIcon && el[possibilityEachArray[2]] == currentIcon)
+
+            // Tic Tac Toe Board  
+            board(currentPlayer, currentIcon, el);
+
+            Console.WriteLine();
+            Console.WriteLine("Where to? ");
+            string temp = Console.ReadLine();
+            el[Convert.ToInt32(temp) - 1] = currentIcon;
+
+            moves++;
+            for (int j = 0; j < possibilities.Length; j++)
             {
-              outcome = "winner";
-              winner = true;
+              int[] possibilityEachArray = possibilities[j];
+              if (el[possibilityEachArray[0]] == currentIcon && el[possibilityEachArray[1]] == currentIcon && el[possibilityEachArray[2]] == currentIcon)
+              {
+                outcome = "winner";
+                winner = true;
+              }
+              else if (moves == 9)
+              {
+                outcome = "draw";
+                winner = true;
+              }
             }
-            else if (moves == 9)
+
+
+            Console.Clear();
+            if (!winner)
             {
-              outcome = "draw";
-              winner = true;
+              currentPlayer = player2;
             }
+
           }
-
-
-          Console.Clear();
-          if (!winner)
+          else if (currentPlayer == player2)
           {
-            currentPlayer = player2;
+
+            // Tic Tac Toe Board  
+            board(currentPlayer, currentIcon, el);
+
+            Console.WriteLine();
+            Console.WriteLine(" Where to? ");
+            string tempNumberValueString = Console.ReadLine();
+            int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
+            el[tempNumberValueToIntIndex] = currentIcon;
+
+            moves++;
+
+            for (int j = 0; j < possibilities.Length; j++)
+
+            {
+              int[] possibilityEachArray = possibilities[j];
+              if (el[possibilityEachArray[0]] == currentIcon && el[possibilityEachArray[1]] == currentIcon && el[possibilityEachArray[2]] == currentIcon)
+              {
+                outcome = "winner";
+                winner = true;
+              }
+              else if (moves == 9)
+              {
+                outcome = "draw";
+                winner = true;
+              }
+            }
+
+
+            Console.Clear();
+
+            if (!winner)
+            {
+              currentPlayer = player1;
+            }
           }
 
         }
-        else if (currentPlayer == player2)
+
+        if (outcome == "winner")
         {
 
-          // Tic Tac Toe Board  
-          board(currentPlayer, currentIcon, el);
-
-          Console.WriteLine();
-          Console.WriteLine(" Where to? ");
-          string tempNumberValueString = Console.ReadLine();
-          int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
-          el[tempNumberValueToIntIndex] = currentIcon;
-
-          moves++;
-
-          for (int j = 0; j < possibilities.Length; j++)
-
-          {
-            int[] possibilityEachArray = possibilities[j];
-            if (el[possibilityEachArray[0]] == currentIcon && el[possibilityEachArray[1]] == currentIcon && el[possibilityEachArray[2]] == currentIcon)
-            {
-              outcome = "winner";
-              winner = true;
-            }
-            else if (moves == 9)
-            {
-              outcome = "draw";
-              winner = true;
-            }
-          }
-
-
-          Console.Clear();
-
-          if (!winner)
-          {
-            currentPlayer = player1;
-          }
+          Console.WriteLine($" {currentPlayer} is the {outcome}");
+          Congrats();
+        }
+        else
+        {
+          Console.WriteLine($" This is a {outcome}");
         }
 
+        Console.WriteLine("press any key to play again");
+        winner = false;
+        el = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        moves = 0;
+        Console.ReadKey();
+        Console.Clear();
       }
 
-      if (outcome == "winner")
-      {
-
-        Console.WriteLine($" {currentPlayer} is the {outcome}");
-        Congrats();
-      }
-      else
-      {
-        Console.WriteLine($" This is a {outcome}");
-        Console.WriteLine(" play again");
-      }
 
       Console.ReadKey();
     }
