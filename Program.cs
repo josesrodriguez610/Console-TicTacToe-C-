@@ -47,10 +47,12 @@ namespace c_project
 
             Console.WriteLine();
             Console.WriteLine("Where to? ");
-            string temp = Console.ReadLine();
-            el[Convert.ToInt32(temp) - 1] = currentIcon;
+            string tempNumberValueString = Console.ReadLine();
+            int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
+            el[tempNumberValueToIntIndex] = currentIcon;
 
             moves++;
+
             for (int j = 0; j < possibilities.Length; j++)
             {
               int[] possibilityEachArray = possibilities[j];
