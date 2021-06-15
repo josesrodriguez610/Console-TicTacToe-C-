@@ -20,19 +20,24 @@ namespace c_project
       string player1, player2;
 
 
+      Console.WriteLine(@"___________.__         ___________               ___________             ._._.");
+      Console.WriteLine(@"\__    ___/|__| ____   \__    ___/____    ____   \__    ___/___   ____   | | |");
+      Console.WriteLine(@"  |    |   |  |/ ___\    |    |  \__  \ _/ ___\    |    | /  _ \_/ __ \  | | |");
+      Console.WriteLine(@"  |    |   |  \  \___    |    |   / __ \\  \___    |    |(  <_> )  ___/   \|\|");
+      Console.WriteLine(@"  |____|   |__|\___  >   |____|  (____  /\___  >   |____| \____/ \___  >  ____");
+      Console.WriteLine(@"                   \/                 \/     \/                      \/   \/\/");
+
+
+
+
       Console.Write("Player 1: ");
       player1 = Console.ReadLine();
-
-
       Console.Write("Player 2: ");
-
-      player2 = Console.ReadLine() == player1 ? $"{player1}(2)" : Console.ReadLine();
+      string player2CheckDuplicate = Console.ReadLine();
+      player2 = player2CheckDuplicate == player1 ? $"{player2CheckDuplicate}(2)" : player2CheckDuplicate;
 
       currentPlayer = player1;
-
       Console.Clear();
-
-
 
       while (!winner)
       {
@@ -41,14 +46,14 @@ namespace c_project
         if (currentPlayer == player1)
         {
           Console.WriteLine();
-          Console.WriteLine($"Player's turn: {currentPlayer}");
+          Console.WriteLine($" Player's turn: {currentPlayer}");
           Console.WriteLine($" Symbol: {currentIcon}");
           Console.WriteLine();
-          Console.WriteLine($" {el[0]} | {el[1]} | {el[2]}");
-          Console.WriteLine($"----------");
-          Console.WriteLine($" {el[3]} | {el[4]} | {el[5]}");
-          Console.WriteLine($"----------");
-          Console.WriteLine($" {el[6]} | {el[7]} | {el[8]}");
+          Console.WriteLine($"  {el[0]} | {el[1]} | {el[2]}");
+          Console.WriteLine($" ----------");
+          Console.WriteLine($"  {el[3]} | {el[4]} | {el[5]}");
+          Console.WriteLine($" ----------");
+          Console.WriteLine($"  {el[6]} | {el[7]} | {el[8]}");
 
           Console.WriteLine();
           Console.WriteLine("Where to? ");
@@ -85,14 +90,14 @@ namespace c_project
           Console.WriteLine($" Player's turn: {currentPlayer}");
           Console.WriteLine($" Symbol: {currentIcon}");
           Console.WriteLine();
-          Console.WriteLine($" {el[0]} | {el[1]} | {el[2]}");
-          Console.WriteLine($"----------");
-          Console.WriteLine($" {el[3]} | {el[4]} | {el[5]}");
-          Console.WriteLine($"----------");
-          Console.WriteLine($" {el[6]} | {el[7]} | {el[8]}");
+          Console.WriteLine($"  {el[0]} | {el[1]} | {el[2]}");
+          Console.WriteLine($" ----------");
+          Console.WriteLine($"  {el[3]} | {el[4]} | {el[5]}");
+          Console.WriteLine($" ----------");
+          Console.WriteLine($"  {el[6]} | {el[7]} | {el[8]}");
 
           Console.WriteLine();
-          Console.WriteLine("Where to? ");
+          Console.WriteLine(" Where to? ");
           string tempNumberValueString = Console.ReadLine();
           int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
           el[tempNumberValueToIntIndex] = currentIcon;
@@ -127,12 +132,12 @@ namespace c_project
       if (outcome == "winner")
       {
 
-        Console.WriteLine($"{currentPlayer} is the {outcome}");
+        Console.WriteLine($" {currentPlayer} is the {outcome}");
       }
       else
       {
-        Console.WriteLine($"This is a {outcome}");
-        Console.WriteLine("play again");
+        Console.WriteLine($" This is a {outcome}");
+        Console.WriteLine(" play again");
       }
 
       Console.ReadKey();
