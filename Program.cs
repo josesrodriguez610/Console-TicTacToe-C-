@@ -8,7 +8,6 @@ namespace c_project
     {
       Console.Clear();
 
-
       // Variables
       string player1, player2;
       string currentPlayer;
@@ -16,6 +15,9 @@ namespace c_project
       bool winner = false;
       string outcome = "draw";
       bool playAgain = true;
+      int player1Score = 0;
+      int player2Score = 0;
+
 
       mainLogo();
 
@@ -25,9 +27,10 @@ namespace c_project
       Console.Write("Player 2: ");
       string player2CheckDuplicate = Console.ReadLine();
       player2 = player2CheckDuplicate == player1 ? $"{player2CheckDuplicate}(2)" : player2CheckDuplicate;
-
       currentPlayer = player1;
+
       Console.Clear();
+
 
       while (playAgain)
       {
@@ -35,21 +38,17 @@ namespace c_project
         string[] el = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         int[][] possibilities = { new int[] { 0, 1, 2 }, new int[] { 3, 4, 5 }, new int[] { 6, 7, 8 }, new int[] { 0, 3, 6 }, new int[] { 1, 4, 7 }, new int[] { 2, 5, 8 }, new int[] { 0, 4, 8 }, new int[] { 2, 4, 6 } };
 
+
         while (!winner)
         {
           string currentIcon = currentPlayer == player1 ? "X" : "O";
 
           if (currentPlayer == player1)
           {
-
             // Tic Tac Toe Board  
-            board(currentPlayer, currentIcon, el);
+            board(currentPlayer, currentIcon, el, player1, player1Score, player2, player2Score);
 
-            Console.WriteLine();
-            Console.WriteLine("Where to? ");
-            string tempNumberValueString = Console.ReadLine();
-            int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
-            el[tempNumberValueToIntIndex] = currentIcon;
+            gamePlay(currentIcon, el);
 
             moves++;
 
@@ -60,6 +59,7 @@ namespace c_project
               {
                 outcome = "winner";
                 winner = true;
+
               }
               else if (moves == 9)
               {
@@ -68,8 +68,8 @@ namespace c_project
               }
             }
 
-
             Console.Clear();
+
             if (!winner)
             {
               currentPlayer = player2;
@@ -80,24 +80,20 @@ namespace c_project
           {
 
             // Tic Tac Toe Board  
-            board(currentPlayer, currentIcon, el);
+            board(currentPlayer, currentIcon, el, player1, player1Score, player2, player2Score);
 
-            Console.WriteLine();
-            Console.WriteLine(" Where to? ");
-            string tempNumberValueString = Console.ReadLine();
-            int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
-            el[tempNumberValueToIntIndex] = currentIcon;
+            gamePlay(currentIcon, el);
 
             moves++;
 
             for (int j = 0; j < possibilities.Length; j++)
-
             {
               int[] possibilityEachArray = possibilities[j];
               if (el[possibilityEachArray[0]] == currentIcon && el[possibilityEachArray[1]] == currentIcon && el[possibilityEachArray[2]] == currentIcon)
               {
                 outcome = "winner";
                 winner = true;
+
               }
               else if (moves == 9)
               {
@@ -105,7 +101,6 @@ namespace c_project
                 winner = true;
               }
             }
-
 
             Console.Clear();
 
@@ -117,11 +112,20 @@ namespace c_project
 
         }
 
+
+        // Outcome Box
         if (outcome == "winner")
         {
-
+          if (currentPlayer == player1)
+          {
+            player1Score++;
+          }
+          else
+          {
+            player2Score++;
+          }
           Console.WriteLine($" {currentPlayer} is the {outcome}");
-          Congrats();
+          congrats();
         }
         else
         {
@@ -129,9 +133,12 @@ namespace c_project
         }
 
         Console.WriteLine("press any key to play again");
+
+        // reset Variables
         winner = false;
         el = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         moves = 0;
+
         Console.ReadKey();
         Console.Clear();
       }
@@ -140,35 +147,11 @@ namespace c_project
       Console.ReadKey();
     }
 
-
-    static public void mainLogo()
+    //Board layout method
+    static public void board(string currentPlayer, string currentIcon, string[] el, string player1, int player1Score, string player2, int player2Score)
     {
-      Console.WriteLine(@"___________.__         ___________               ___________             ._._.");
-      Console.WriteLine(@"\__    ___/|__| ____   \__    ___/____    ____   \__    ___/___   ____   | | |");
-      Console.WriteLine(@"  |    |   |  |/ ___\    |    |  \__  \ _/ ___\    |    | /  _ \_/ __ \  | | |");
-      Console.WriteLine(@"  |    |   |  \  \___    |    |   / __ \\  \___    |    |(  <_> )  ___/   \|\|");
-      Console.WriteLine(@"  |____|   |__|\___  >   |____|  (____  /\___  >   |____| \____/ \___  >  ____");
-      Console.WriteLine(@"                   \/                 \/     \/                      \/   \/\/");
-
-    }
-
-
-    static public void Congrats()
-    {
-      Console.WriteLine(@" ________  ________  ________   ________  ________  ________  _________  ___  ___  ___       ________  _________  ___  ________  ________   ________");
-      Console.WriteLine(@"|\   ____\|\   __  \|\   ___  \|\   ____\|\   __  \|\   __  \|\___   ___\\  \|\  \|\  \     |\   __  \|\___   ___\\  \|\   __  \|\   ___  \|\   ____\");
-      Console.WriteLine(@"\ \  \___|\ \  \|\  \ \  \\ \  \ \  \___|\ \  \|\  \ \  \|\  \|___ \  \_\ \  \\\  \ \  \    \ \  \|\  \|___ \  \_\ \  \ \  \|\  \ \  \\ \  \ \  \___|_");
-      Console.WriteLine(@" \ \  \    \ \  \\\  \ \  \\ \  \ \  \  __\ \   _  _\ \   __  \   \ \  \ \ \  \\\  \ \  \    \ \   __  \   \ \  \ \ \  \ \  \\\  \ \  \\ \  \ \_____  \");
-      Console.WriteLine(@"  \ \  \____\ \  \\\  \ \  \\ \  \ \  \|\  \ \  \\  \\ \  \ \  \   \ \  \ \ \  \\\  \ \  \____\ \  \ \  \   \ \  \ \ \  \ \  \\\  \ \  \\ \  \|____|\  \");
-      Console.WriteLine(@"   \ \_______\ \_______\ \__\\ \__\ \_______\ \__\\ _\\ \__\ \__\   \ \__\ \ \_______\ \_______\ \__\ \__\   \ \__\ \ \__\ \_______\ \__\\ \__\____\_\  \");
-      Console.WriteLine(@"    \|_______|\|_______|\|__| \|__|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|_______|\|_______|\|__|\|__|    \|__|  \|__|\|_______|\|__| \|__|\_________\");
-      Console.WriteLine(@"                                                                                                                                              \|_________|");
-
-
-    }
-
-    static public void board(string currentPlayer, string currentIcon, string[] el)
-    {
+      Console.WriteLine();
+      Console.WriteLine($"{player1}'s score: {player1Score}  {player2}'s score: {player2Score}");
       Console.WriteLine();
       Console.WriteLine($" Player's turn: {currentPlayer}");
       Console.WriteLine($" Symbol: {currentIcon}");
@@ -179,7 +162,43 @@ namespace c_project
       Console.WriteLine($" ----------");
       Console.WriteLine($"  {el[6]} | {el[7]} | {el[8]}");
     }
-  }
 
+    //GamePlay method
+
+    static public void gamePlay(string currentIcon, string[] el)
+    {
+      Console.WriteLine();
+      Console.WriteLine("Where to? ");
+      string tempNumberValueString = Console.ReadLine();
+      int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
+      el[tempNumberValueToIntIndex] = currentIcon;
+
+    }
+
+    // Logo Title method
+    static public void mainLogo()
+    {
+      Console.WriteLine(@"___________.__         ___________               ___________             ._._.");
+      Console.WriteLine(@"\__    ___/|__| ____   \__    ___/____    ____   \__    ___/___   ____   | | |");
+      Console.WriteLine(@"  |    |   |  |/ ___\    |    |  \__  \ _/ ___\    |    | /  _ \_/ __ \  | | |");
+      Console.WriteLine(@"  |    |   |  \  \___    |    |   / __ \\  \___    |    |(  <_> )  ___/   \|\|");
+      Console.WriteLine(@"  |____|   |__|\___  >   |____|  (____  /\___  >   |____| \____/ \___  >  ____");
+      Console.WriteLine(@"                   \/                 \/     \/                      \/   \/\/");
+    }
+
+    // Congrats Title method
+    static public void congrats()
+    {
+      Console.WriteLine(@" ________  ________  ________   ________  ________  ________  _________  ___  ___  ___       ________  _________  ___  ________  ________   ________");
+      Console.WriteLine(@"|\   ____\|\   __  \|\   ___  \|\   ____\|\   __  \|\   __  \|\___   ___\\  \|\  \|\  \     |\   __  \|\___   ___\\  \|\   __  \|\   ___  \|\   ____\");
+      Console.WriteLine(@"\ \  \___|\ \  \|\  \ \  \\ \  \ \  \___|\ \  \|\  \ \  \|\  \|___ \  \_\ \  \\\  \ \  \    \ \  \|\  \|___ \  \_\ \  \ \  \|\  \ \  \\ \  \ \  \___|_");
+      Console.WriteLine(@" \ \  \    \ \  \\\  \ \  \\ \  \ \  \  __\ \   _  _\ \   __  \   \ \  \ \ \  \\\  \ \  \    \ \   __  \   \ \  \ \ \  \ \  \\\  \ \  \\ \  \ \_____  \");
+      Console.WriteLine(@"  \ \  \____\ \  \\\  \ \  \\ \  \ \  \|\  \ \  \\  \\ \  \ \  \   \ \  \ \ \  \\\  \ \  \____\ \  \ \  \   \ \  \ \ \  \ \  \\\  \ \  \\ \  \|____|\  \");
+      Console.WriteLine(@"   \ \_______\ \_______\ \__\\ \__\ \_______\ \__\\ _\\ \__\ \__\   \ \__\ \ \_______\ \_______\ \__\ \__\   \ \__\ \ \__\ \_______\ \__\\ \__\____\_\  \");
+      Console.WriteLine(@"    \|_______|\|_______|\|__| \|__|\|_______|\|__|\|__|\|__|\|__|    \|__|  \|_______|\|_______|\|__|\|__|    \|__|  \|__|\|_______|\|__| \|__|\_________\");
+      Console.WriteLine(@"                                                                                                                                              \|_________|");
+    }
+
+  }
 
 }
