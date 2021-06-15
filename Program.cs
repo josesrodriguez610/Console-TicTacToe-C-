@@ -25,7 +25,8 @@ namespace c_project
 
 
       Console.Write("Player 2: ");
-      player2 = Console.ReadLine();
+
+      player2 = Console.ReadLine() == player1 ? $"{player1}(2)" : Console.ReadLine();
 
       currentPlayer = player1;
 
@@ -41,6 +42,7 @@ namespace c_project
         {
           Console.WriteLine();
           Console.WriteLine($"Player's turn: {currentPlayer}");
+          Console.WriteLine($" Symbol: {currentIcon}");
           Console.WriteLine();
           Console.WriteLine($" {el[0]} | {el[1]} | {el[2]}");
           Console.WriteLine($"----------");
@@ -62,20 +64,26 @@ namespace c_project
               outcome = "winner";
               winner = true;
             }
+            else if (moves == 8)
+            {
+              outcome = "draw";
+              winner = true;
+            }
           }
 
           moves++;
           Console.Clear();
-          if (winner != true)
+          if (!winner)
           {
             currentPlayer = player2;
           }
 
         }
-        else
+        else if (currentPlayer == player2)
         {
           Console.WriteLine();
           Console.WriteLine($" Player's turn: {currentPlayer}");
+          Console.WriteLine($" Symbol: {currentIcon}");
           Console.WriteLine();
           Console.WriteLine($" {el[0]} | {el[1]} | {el[2]}");
           Console.WriteLine($"----------");
@@ -103,9 +111,14 @@ namespace c_project
           moves++;
           Console.Clear();
 
-          if (winner != true)
+          if (!winner)
           {
             currentPlayer = player1;
+          }
+          else if (moves == 8)
+          {
+            outcome = "draw";
+            winner = true;
           }
         }
 
@@ -118,7 +131,7 @@ namespace c_project
       }
       else
       {
-
+        Console.WriteLine($"This is a {outcome}");
         Console.WriteLine("play again");
       }
 
