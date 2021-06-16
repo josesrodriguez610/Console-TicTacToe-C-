@@ -1,5 +1,9 @@
 # Tic-Tac-Toe
 
+## Run
+
+`dotnet run`
+
 I built a Console Application in C#
 
 ![Application](images/1.png)
