@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace c_project
 {
@@ -132,7 +133,8 @@ namespace c_project
           Console.WriteLine($" This is a {outcome}");
         }
 
-        Console.WriteLine("press any key to play again");
+        Console.WriteLine("press any key to play again or (Esc) key to quit");
+
 
         // reset Variables
         winner = false;
@@ -166,12 +168,40 @@ namespace c_project
     //GamePlay method
 
     static public void gamePlay(string currentIcon, string[] el)
+
     {
-      Console.WriteLine();
-      Console.WriteLine("Where to? ");
-      string tempNumberValueString = Console.ReadLine();
-      int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
-      el[tempNumberValueToIntIndex] = currentIcon;
+
+      bool valid = false;
+
+      while (!valid)
+      {
+
+        Console.WriteLine();
+        Console.WriteLine("Where to? ");
+        string tempNumberValueString = Console.ReadLine();
+
+        Regex regex = new Regex("^[0-9]+$");
+
+        if (!regex.IsMatch(tempNumberValueString))
+        {
+          Console.WriteLine("Only numbers from 1 - 9");
+        }
+        else
+        {
+          int tempNumberValueToIntIndex = Convert.ToInt32(tempNumberValueString) - 1;
+
+          if (el[tempNumberValueToIntIndex] == "X" || el[tempNumberValueToIntIndex] == "O")
+          {
+            Console.WriteLine("Position has already been selected select another one");
+          }
+          else
+          {
+            el[tempNumberValueToIntIndex] = currentIcon;
+            valid = true;
+          }
+        }
+
+      }
 
     }
 
