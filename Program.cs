@@ -141,7 +141,11 @@ namespace c_project
         el = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
         moves = 0;
 
-        Console.ReadKey();
+        var key = Console.ReadKey();
+        if (key.Key == ConsoleKey.Escape)
+        {
+          Environment.Exit(0);
+        }
         Console.Clear();
       }
 
